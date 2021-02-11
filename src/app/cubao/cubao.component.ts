@@ -21,6 +21,9 @@ export class CubaoComponent implements OnInit {
   nCuboXini = 0;
   nCuboXFim = 0;
 
+  aclasse = new Array();
+  classeCelula = "a svgtxt";
+
   nColSele = 0;
   nLinSele = 0;
   // nXsel = 0;
@@ -31,25 +34,122 @@ export class CubaoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.atext = this.montaaSeta();
+    this.atext = this.inicializaVar();
+    this.aclasse = this.inicializaVar(2);
+    console.log("CubaoComponent -> ngOnInit -> this.aclasse", this.aclasse)
     this.aCubo.push(this.montaFaces());
-    console.log('CubaoComponent -> ngOnInit -> aFaceRet', this.aCubo);
+
+    // console.log('CubaoComponent -> ngOnInit -> aFaceRet', this.aCubo);
 
   }
 
-  montaaSeta() {
-    let aSeta = new Array();
-    let aLisSeta = new Array();
+  AtualizaSeta(nLin = null, nCol = null, cContent = "")
+  {
+        this.atext = this.inicializaVar();
+    this.aclasse = this.inicializaVar(2);
 
-    for (let j = 0; j < 3; j++) {
-      aSeta = [];
-      for (let i = 0; i < 3; i++) {
-        aSeta.push(' ');
+    if(nLin !== null)
+    {
+      for (let i = 0; i < this.atext[nLin].length ; i++) {
+        this.atext[nLin][i] = cContent;
+        this.aclasse[nLin][i] = "a2 svgtxt"
       }
-      aLisSeta.push(aSeta);
+
+    }
+    if (nCol !== null){
+      for (let i = 0; i < this.atext.length ; i++) {
+        this.atext[i][nCol] = cContent;
+        this.aclasse[i][nCol] = "a2 svgtxt"
+      }
     }
 
-    return aLisSeta;
+
+
+  }
+
+  entrou(event){
+    if (this.lSelected)
+    {
+      this.nLinSele
+      console.log("CubaoComponent -> entrou -> this.nLinSele", this.nLinSele)
+      this.nColSele
+      console.log("CubaoComponent -> entrou -> this.nColSele", this.nColSele)
+
+      var nAtuLin = event.path[1].rowIndex;
+      console.log("CubaoComponent -> entrou -> nAtuLin", nAtuLin)
+      var nAtuCel = event.path[0].cellIndex;
+      console.log("CubaoComponent -> entrou -> var nAtuCel", nAtuCel)
+
+      if(this.nLinSele === nAtuLin)
+      {
+        if(nAtuCel>this.nColSele)
+        {
+          this.AtualizaSeta(nAtuLin,null,'\u27a1');
+          console.log('\u27a1')
+
+        }else if(nAtuCel<this.nColSele)
+        {
+          console.log('\u2B05')
+          this.AtualizaSeta(nAtuLin,null,'\u2B05');
+
+        }else
+        {
+          console.log('no lugar')
+        }
+
+      } else if (this.nColSele === nAtuCel)
+      {
+        if(nAtuLin < this.nLinSele)
+        {
+          this.AtualizaSeta(null,nAtuCel,'\u2B06')
+          console.log('\u2B06')
+        }else if(nAtuLin > this.nLinSele)
+        {
+          this.AtualizaSeta(null,nAtuCel,'\u2B07')
+          console.log('\u2B07')
+        }else
+        {
+          console.log('no lugar')
+        }
+
+
+
+      }
+
+
+      // console.log("CubaoComponent -> saiu -> event", event)
+      // var id = event.fromElement.id
+      // var dimCel = document.getElementById(id).getBoundingClientRect();
+      // console.log("CubaoComponent -> saiu -> dimCel", dimCel)
+
+      // console.log("CubaoComponent -> saiu -> event.fromElement.id", event.fromElement.id)
+      // console.log("CubaoComponent -> saiu -> event.fromElement", event.fromElement)
+      // console.log("saiu");
+    }
+  }
+
+  inicializaVar(nopc = 1 ) {
+    let aValor = new Array();
+    const aLisValor = new Array();
+    let cInit = ""
+    switch (nopc) {
+      case 1:
+        cInit = " ";
+        break;
+      case 2:
+        cInit = 'a svgtxt';
+        break;
+    }
+    for (let j = 0; j < 3; j++) {
+      aValor = [];
+      for (let i = 0; i < 3; i++) {
+        aValor.push(cInit);
+
+      }
+      aLisValor.push(aValor);
+    }
+
+    return aLisValor;
 
 
 
@@ -79,7 +179,7 @@ export class CubaoComponent implements OnInit {
     aLine.push(CubaoComponent._AZUL);
 
     aFaceRet.push(aLine);
-    console.log('CubaoComponent -> ngOnInit -> aFaceRet', aFaceRet);
+    // console.log('CubaoComponent -> ngOnInit -> aFaceRet', aFaceRet);
 
 
 
@@ -90,12 +190,12 @@ export class CubaoComponent implements OnInit {
   }
   desceMouse(event) {
     this.lSelected = true;
-    console.log(event);
-    console.log(event.path[0].cellIndex + ',' + event.path[1].rowIndex);
+    // console.log(event);
+    // console.log(event.path[0].cellIndex + ',' + event.path[1].rowIndex);
     var dimCubo = document.getElementById("cuboprin").getBoundingClientRect();
-    console.log("CubaoComponent -> desceMouse -> dimCubo", dimCubo)
+    // console.log("CubaoComponent -> desceMouse -> dimCubo", dimCubo)
 
-    console.log("CubaoComponent -> desceMouse -> dimCubo.bottom", dimCubo.bottom)
+    // console.log("CubaoComponent -> desceMouse -> dimCubo.bottom", dimCubo.bottom)
 
     this.nLinSele = event.path[1].rowIndex;
     this.nColSele = event.path[0].cellIndex;
@@ -106,12 +206,12 @@ export class CubaoComponent implements OnInit {
     this.nCuboXini = dimCubo.left;
     this.nCuboXFim = dimCubo.right;
 
-//    console.log("CubaoComponent -> desceMouse -> navbar ", navbar )
+//    // console.log("CubaoComponent -> desceMouse -> navbar ", navbar )
 //    var sticky = navbar.getBoundingClientRect();
 
 
-    console.log('CubaoComponent -> this.nColSele', this.nColSele);
-    console.log('CubaoComponent -> this.nLinSele', this.nLinSele);
+    // console.log('CubaoComponent -> this.nColSele', this.nColSele);
+    // console.log('CubaoComponent -> this.nLinSele', this.nLinSele);
 
     // console.log("CubaoComponent -> event.screenY", event.screenY)
     // console.log("CubaoComponent -> event.screenX", event.screenX)
@@ -128,18 +228,18 @@ export class CubaoComponent implements OnInit {
 
   sobemousepagia(event) {
     if (this.lSelected) {
-      console.log('CubaoComponent -> this.nCuboYini', this.nCuboYini);
+      // console.log('CubaoComponent -> this.nCuboYini', this.nCuboYini);
       event.clientY
-      console.log("CubaoComponent -> sobemousepagia -> event.clientY", event.clientY)
+      // console.log("CubaoComponent -> sobemousepagia -> event.clientY", event.clientY)
       if (event.clientY < this.nCuboYini) {
-        console.log('no final Subiu Pra fora');
+        // console.log('no final Subiu Pra fora');
 
       } else if (event.clientY > this.nCuboYFim) {
-        console.log('no final Desceu Pra fora');
+        // console.log('no final Desceu Pra fora');
 
       } else {
 
-        console.log('Fico na altura do cubo');
+        // console.log('Fico na altura do cubo');
 
       }
       // console.log("CubaoComponent -> sobemousepagia -> event.clientY", event.clientY)
@@ -150,12 +250,12 @@ export class CubaoComponent implements OnInit {
 
       if(event.clientX < this.nCuboXini)
       {
-        console.log('no final Saiu pra esquerda');
+        // console.log('no final Saiu pra esquerda');
       } else if (event.clientX > this.nCuboXFim) {
-        console.log('no final Saiu pra Direita');
+        // console.log('no final Saiu pra Direita');
 
       } else {
-        console.log('Fico na largura do cubo');
+        // console.log('Fico na largura do cubo');
 
       }
 
@@ -166,22 +266,22 @@ export class CubaoComponent implements OnInit {
     }
 
 
-    console.log(event);
+    // console.log(event);
   }
   teste(event) {
 
-    console.log('CubaoComponent -> event', event);
+    // console.log('CubaoComponent -> event', event);
   }
   sobemouse(event) {
     console.log(event);
     if (this.nColSele === event.path[0].cellIndex) {
 
       if (this.nLinSele < event.path[1].rowIndex) {
-        console.log('no final Desceu');
+        // console.log('no final Desceu');
       } else if (this.nLinSele > event.path[1].rowIndex) {
-        console.log('no final subiu');
+        // console.log('no final subiu');
       } else {
-        console.log('no final fico iguau');
+        // console.log('no final fico iguau');
 
         // event.path[0].click();
       }
@@ -190,18 +290,22 @@ export class CubaoComponent implements OnInit {
     {
       if(this.nColSele < event.path[0].cellIndex)
       {
-        console.log('no final foi pa direita');
+        // console.log('no final foi pa direita');
       } else if (this.nColSele > event.path[0].cellIndex) {
-        console.log('no final foi pa exquerda');
+        // console.log('no final foi pa exquerda');
       }else {
-        console.log('no final fico iguau');
+        // console.log('no final fico iguau');
       }
 
 
     }
-    console.log(document.getSelection());
+    // console.log(document.getSelection());
     // event.path[0].reload();
     this.lSelected = false;
+    this.atext = this.inicializaVar();
+    this.aclasse = this.inicializaVar(2);
+
+
 
   }
 }

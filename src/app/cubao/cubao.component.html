@@ -6,15 +6,15 @@
   <br>
   <br>
 <DIV >
-  <table class="b" align="center"  id="cuboprin">
-    <tr class="a"  *ngFor="let linha of aCubo[0]; index as i">
-      <td class="b" (mouseover) = "emcima($event)" (mousedown) =desceMouse($event) (mouseup) = sobemouse($event)
+  <table class="b"  align="center"  id="cuboprin">
+    <tr class="a"   *ngFor="let linha of aCubo[0]; index as i">
+      <td (mouseenter) = "entrou($event)" class="{{ aclasse[i][j] }}" id="{{i}}|{{j}}"   (mouseover) = "emcima($event)" (mousedown) =desceMouse($event) (mouseup) = sobemouse($event)
         *ngFor="let coluna of aCubo[0]; index as j"
         [style.background-color]="aCubo[0][i][j]"
 
 
       >
-      {{atext[i][j]}}
+       {{atext[i][j]}}
 
 
       </td>

@@ -43,21 +43,46 @@ export class CubaoComponent implements OnInit {
 
   }
 
-  AtualizaSeta(nLin = null, nCol = null, cContent = "")
-  {
-        this.atext = this.inicializaVar();
+  fizzBuzz(n) {
+    let nMod3 = 0;
+    let nMod5 = 0;
+    let cResult = '';
+    let aRet = new Array();
+    for (let index = 1; index <= n; index++) {
+      cResult = "";
+      nMod5 = index % 5;
+      nMod3 = index % 3;
+
+      if (nMod3 === 0) {
+        cResult = cResult.concat('Fizz');
+      }
+      if (nMod5 === 0) {
+        cResult = cResult.concat('Buzz');
+      }
+      if (cResult.length === 0 || !cResult.trim()) {
+        cResult = index.toString();
+      }
+      aRet.push(cResult);
+
+
+      console.log(cResult);
+    }
+
+    return aRet;
+  }
+  AtualizaSeta(nLin = null, nCol = null, cContent = "") {
+    this.atext = this.inicializaVar();
     this.aclasse = this.inicializaVar(2);
 
-    if(nLin !== null)
-    {
-      for (let i = 0; i < this.atext[nLin].length ; i++) {
+    if (nLin !== null) {
+      for (let i = 0; i < this.atext[nLin].length; i++) {
         this.atext[nLin][i] = cContent;
         this.aclasse[nLin][i] = "a2 svgtxt"
       }
 
     }
-    if (nCol !== null){
-      for (let i = 0; i < this.atext.length ; i++) {
+    if (nCol !== null) {
+      for (let i = 0; i < this.atext.length; i++) {
         this.atext[i][nCol] = cContent;
         this.aclasse[i][nCol] = "a2 svgtxt"
       }
@@ -67,9 +92,8 @@ export class CubaoComponent implements OnInit {
 
   }
 
-  entrou(event){
-    if (this.lSelected)
-    {
+  entrou(event) {
+    if (this.lSelected) {
       this.nLinSele
       console.log("CubaoComponent -> entrou -> this.nLinSele", this.nLinSele)
       this.nColSele
@@ -80,35 +104,27 @@ export class CubaoComponent implements OnInit {
       var nAtuCel = event.path[0].cellIndex;
       console.log("CubaoComponent -> entrou -> var nAtuCel", nAtuCel)
 
-      if(this.nLinSele === nAtuLin)
-      {
-        if(nAtuCel>this.nColSele)
-        {
-          this.AtualizaSeta(nAtuLin,null,'\u27a1');
+      if (this.nLinSele === nAtuLin) {
+        if (nAtuCel > this.nColSele) {
+          this.AtualizaSeta(nAtuLin, null, '\u27a1');
           console.log('\u27a1')
 
-        }else if(nAtuCel<this.nColSele)
-        {
+        } else if (nAtuCel < this.nColSele) {
           console.log('\u2B05')
-          this.AtualizaSeta(nAtuLin,null,'\u2B05');
+          this.AtualizaSeta(nAtuLin, null, '\u2B05');
 
-        }else
-        {
+        } else {
           console.log('no lugar')
         }
 
-      } else if (this.nColSele === nAtuCel)
-      {
-        if(nAtuLin < this.nLinSele)
-        {
-          this.AtualizaSeta(null,nAtuCel,'\u2B06')
+      } else if (this.nColSele === nAtuCel) {
+        if (nAtuLin < this.nLinSele) {
+          this.AtualizaSeta(null, nAtuCel, '\u2B06')
           console.log('\u2B06')
-        }else if(nAtuLin > this.nLinSele)
-        {
-          this.AtualizaSeta(null,nAtuCel,'\u2B07')
+        } else if (nAtuLin > this.nLinSele) {
+          this.AtualizaSeta(null, nAtuCel, '\u2B07')
           console.log('\u2B07')
-        }else
-        {
+        } else {
           console.log('no lugar')
         }
 
@@ -128,7 +144,7 @@ export class CubaoComponent implements OnInit {
     }
   }
 
-  inicializaVar(nopc = 1 ) {
+  inicializaVar(nopc = 1) {
     let aValor = new Array();
     const aLisValor = new Array();
     let cInit = ""
@@ -206,8 +222,8 @@ export class CubaoComponent implements OnInit {
     this.nCuboXini = dimCubo.left;
     this.nCuboXFim = dimCubo.right;
 
-//    // console.log("CubaoComponent -> desceMouse -> navbar ", navbar )
-//    var sticky = navbar.getBoundingClientRect();
+    //    // console.log("CubaoComponent -> desceMouse -> navbar ", navbar )
+    //    var sticky = navbar.getBoundingClientRect();
 
 
     // console.log('CubaoComponent -> this.nColSele', this.nColSele);
@@ -248,8 +264,7 @@ export class CubaoComponent implements OnInit {
 
       // console.log("CubaoComponent -> sobemousepagia -> this.nCuboYFim", this.nCuboYFim)
 
-      if(event.clientX < this.nCuboXini)
-      {
+      if (event.clientX < this.nCuboXini) {
         // console.log('no final Saiu pra esquerda');
       } else if (event.clientX > this.nCuboXFim) {
         // console.log('no final Saiu pra Direita');
@@ -286,14 +301,12 @@ export class CubaoComponent implements OnInit {
         // event.path[0].click();
       }
     }
-    else if(this.nLinSele == event.path[1].rowIndex)
-    {
-      if(this.nColSele < event.path[0].cellIndex)
-      {
+    else if (this.nLinSele == event.path[1].rowIndex) {
+      if (this.nColSele < event.path[0].cellIndex) {
         // console.log('no final foi pa direita');
       } else if (this.nColSele > event.path[0].cellIndex) {
         // console.log('no final foi pa exquerda');
-      }else {
+      } else {
         // console.log('no final fico iguau');
       }
 

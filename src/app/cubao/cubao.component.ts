@@ -21,6 +21,11 @@ export class CubaoComponent implements OnInit {
   nCuboXini = 0;
   nCuboXFim = 0;
 
+  nCelYini = 0;
+  nCelYFim = 0;
+  nCelXini = 0;
+  nCelXFim = 0;
+
   aclasse = new Array();
   classeCelula = "a svgtxt";
 
@@ -93,55 +98,55 @@ export class CubaoComponent implements OnInit {
   }
 
   entrou(event) {
-    if (this.lSelected) {
-      this.nLinSele
-      console.log("CubaoComponent -> entrou -> this.nLinSele", this.nLinSele)
-      this.nColSele
-      console.log("CubaoComponent -> entrou -> this.nColSele", this.nColSele)
+    // if (this.lSelected) {
+    //   this.nLinSele
+    //   console.log("CubaoComponent -> entrou -> this.nLinSele", this.nLinSele)
+    //   this.nColSele
+    //   console.log("CubaoComponent -> entrou -> this.nColSele", this.nColSele)
 
-      var nAtuLin = event.path[1].rowIndex;
-      console.log("CubaoComponent -> entrou -> nAtuLin", nAtuLin)
-      var nAtuCel = event.path[0].cellIndex;
-      console.log("CubaoComponent -> entrou -> var nAtuCel", nAtuCel)
+    //   var nAtuLin = event.path[1].rowIndex;
+    //   console.log("CubaoComponent -> entrou -> nAtuLin", nAtuLin)
+    //   var nAtuCel = event.path[0].cellIndex;
+    //   console.log("CubaoComponent -> entrou -> var nAtuCel", nAtuCel)
 
-      if (this.nLinSele === nAtuLin) {
-        if (nAtuCel > this.nColSele) {
-          this.AtualizaSeta(nAtuLin, null, '\u27a1');
-          console.log('\u27a1')
+    //   if (this.nLinSele === nAtuLin) {
+    //     if (nAtuCel > this.nColSele) {
+    //       this.AtualizaSeta(nAtuLin, null, '\u27a1');
+    //       console.log('\u27a1')
 
-        } else if (nAtuCel < this.nColSele) {
-          console.log('\u2B05')
-          this.AtualizaSeta(nAtuLin, null, '\u2B05');
+    //     } else if (nAtuCel < this.nColSele) {
+    //       console.log('\u2B05')
+    //       this.AtualizaSeta(nAtuLin, null, '\u2B05');
 
-        } else {
-          console.log('no lugar')
-        }
+    //     } else {
+    //       console.log('no lugar')
+    //     }
 
-      } else if (this.nColSele === nAtuCel) {
-        if (nAtuLin < this.nLinSele) {
-          this.AtualizaSeta(null, nAtuCel, '\u2B06')
-          console.log('\u2B06')
-        } else if (nAtuLin > this.nLinSele) {
-          this.AtualizaSeta(null, nAtuCel, '\u2B07')
-          console.log('\u2B07')
-        } else {
-          console.log('no lugar')
-        }
-
-
-
-      }
+    //   } else if (this.nColSele === nAtuCel) {
+    //     if (nAtuLin < this.nLinSele) {
+    //       this.AtualizaSeta(null, nAtuCel, '\u2B06')
+    //       console.log('\u2B06')
+    //     } else if (nAtuLin > this.nLinSele) {
+    //       this.AtualizaSeta(null, nAtuCel, '\u2B07')
+    //       console.log('\u2B07')
+    //     } else {
+    //       console.log('no lugar')
+    //     }
 
 
-      // console.log("CubaoComponent -> saiu -> event", event)
-      // var id = event.fromElement.id
-      // var dimCel = document.getElementById(id).getBoundingClientRect();
-      // console.log("CubaoComponent -> saiu -> dimCel", dimCel)
 
-      // console.log("CubaoComponent -> saiu -> event.fromElement.id", event.fromElement.id)
-      // console.log("CubaoComponent -> saiu -> event.fromElement", event.fromElement)
-      // console.log("saiu");
-    }
+    //   }
+
+
+    //   // console.log("CubaoComponent -> saiu -> event", event)
+    //   // var id = event.fromElement.id
+    //   // var dimCel = document.getElementById(id).getBoundingClientRect();
+    //   // console.log("CubaoComponent -> saiu -> dimCel", dimCel)
+
+    //   // console.log("CubaoComponent -> saiu -> event.fromElement.id", event.fromElement.id)
+    //   // console.log("CubaoComponent -> saiu -> event.fromElement", event.fromElement)
+    //   // console.log("saiu");
+    // }
   }
 
   inicializaVar(nopc = 1) {
@@ -206,17 +211,27 @@ export class CubaoComponent implements OnInit {
   }
   desceMouse(event) {
     this.lSelected = true;
-    // console.log(event);
-    // console.log(event.path[0].cellIndex + ',' + event.path[1].rowIndex);
+     console.log(event);
+     console.log(event.path[0].id);
+
+         // console.log(event.path[0].cellIndex + ',' + event.path[1].rowIndex);
+   var dimCel = document.getElementById(event.path[0].id).getBoundingClientRect();
+   console.log("CubaoComponent -> desceMouse -> dimCel", dimCel)
+
     var dimCubo = document.getElementById("cuboprin").getBoundingClientRect();
-    // console.log("CubaoComponent -> desceMouse -> dimCubo", dimCubo)
+
+     console.log("CubaoComponent -> desceMouse -> dimCubo", dimCubo)
 
     // console.log("CubaoComponent -> desceMouse -> dimCubo.bottom", dimCubo.bottom)
 
     this.nLinSele = event.path[1].rowIndex;
     this.nColSele = event.path[0].cellIndex;
-    // this.nXsel = event.screenX;
-    // this.nYsel = event.screenY;
+    this.nCelYini = dimCel.top;
+    this.nCelYFim = dimCel.bottom;
+    this.nCelXini = dimCel.left;
+    this.nCelXFim = dimCel.right;
+
+
     this.nCuboYini = dimCubo.top;
     this.nCuboYFim = dimCubo.bottom;
     this.nCuboXini = dimCubo.left;
@@ -237,25 +252,72 @@ export class CubaoComponent implements OnInit {
     // console.log("CubaoComponent -> path[2].offsetHeight", event.path[2].offsetHeight)
   }
   emcima(event) {
-    //    console.log(event);
-    //   console.log( event.path[0].cellIndex + ','+  event.path[1].rowIndex);
+    if (this.lSelected)
+    {
+      // console.log("Clientx",event.clientX);
+      // console.log("ClientY",event.clientY);
+
+      // console.log("nCelYini",this.nCelYini);
+      // console.log("nCelYFim",this.nCelYFim);
+      // console.log("nCelXini",this.nCelXini);
+      // console.log("nCelXFim",this.nCelXFim);
+
+      if(this.between(event.clientX, this.nCelXini, this.nCelXFim))
+      {
+        if(event.clientY>this.nCelYFim)
+        {
+          console.log("baixo");
+          this.AtualizaSeta(null, this.nColSele, '\u2B07')
+          console.log('\u2B07')
+
+        }
+        else if(event.clientY<this.nCelYini)
+        {
+          this.AtualizaSeta(null, this.nColSele, '\u2B06')
+          console.log('\u2B06')
+          console.log("cima");
+        }
+      }
+      if(this.between(event.clientY, this.nCelYini, this.nCelYFim))
+      {
+        if(event.clientX>this.nCelXFim)
+        {
+          this.AtualizaSeta(this.nLinSele, null, '\u27a1');
+          console.log('\u27a1')
+          console.log("direita");
+        }
+        else if(event.clientX<this.nCelXini)
+        {
+          console.log('\u2B05')
+          this.AtualizaSeta(this.nLinSele, null, '\u2B05');
+          console.log("esquerda");
+        }
+
+      }
+
+
+    }
 
   }
 
+
+   between(x, min, max) {
+    return x >= min && x <= max;
+  }
   sobemousepagia(event) {
     if (this.lSelected) {
-      // console.log('CubaoComponent -> this.nCuboYini', this.nCuboYini);
+       console.log('CubaoComponent -> this.nCuboYini', this.nCuboYini);
       event.clientY
       // console.log("CubaoComponent -> sobemousepagia -> event.clientY", event.clientY)
       if (event.clientY < this.nCuboYini) {
-        // console.log('no final Subiu Pra fora');
+         console.log('no final Subiu Pra fora');
 
       } else if (event.clientY > this.nCuboYFim) {
-        // console.log('no final Desceu Pra fora');
+         console.log('no final Desceu Pra fora');
 
       } else {
 
-        // console.log('Fico na altura do cubo');
+         console.log('Fico na altura do cubo');
 
       }
       // console.log("CubaoComponent -> sobemousepagia -> event.clientY", event.clientY)
@@ -265,12 +327,12 @@ export class CubaoComponent implements OnInit {
       // console.log("CubaoComponent -> sobemousepagia -> this.nCuboYFim", this.nCuboYFim)
 
       if (event.clientX < this.nCuboXini) {
-        // console.log('no final Saiu pra esquerda');
+         console.log('no final Saiu pra esquerda');
       } else if (event.clientX > this.nCuboXFim) {
-        // console.log('no final Saiu pra Direita');
+         console.log('no final Saiu pra Direita');
 
       } else {
-        // console.log('Fico na largura do cubo');
+         console.log('Fico na largura do cubo');
 
       }
 
